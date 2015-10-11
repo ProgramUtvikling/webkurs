@@ -10,12 +10,22 @@ require.config({
 require(["lib/Home", "lib/Shop", "lib/Business", "jquery"], function (Home, Shop, Business, $) {
 	"use strict";
 	
-	var p1 = new Home(1, "G47", 59.922300, 10.491150, "Arjan & fam");
-	var p2 = new Shop(2, "Marits Klær", 59.922300, 10.491150, "Clothes", "9-18 (10-15)");
-	var p3 = new Business(3, "Lofoten Sjokoladefabrikk", 59.922300, 10.491150);
-	console.log(p1.toString());
-	console.log(p2.toString());
-	console.log(p3.toString());
+	//var p1 = new Home(1, "G47", 59.922300, 10.491150, "Arjan & fam");
+	//var p2 = new Shop(2, "Marits Klær", 59.922300, 10.491150, "Clothes", "9-18 (10-15)");
+	//var p3 = new Business(3, "Lofoten Sjokoladefabrikk", 59.922300, 10.491150);
+	//console.log(p1.toString());
+	//console.log(p2.toString());
+	//console.log(p3.toString());
+
+	$.ajax({
+	    url: '/api/places',
+        type: 'GET'
+	}).then(function (data) {
+	    var parent = $('ul#placelist');
+	    for (var i = 0; i < data.length; i++) {
+	        $("<li>" + data[i].title + "</li>").appendTo(parent);
+	    }
+	});
 
 	$("<div>jQuery succesfully loaded</div>").prependTo("body");
 
