@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "1CircleWeb", "1CircleWeb\1CircleWeb.csproj", "{D15ABD16-C099-42A8-A6BF-4B7280F00AD4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneCircleWeb", "OneCircleWeb\OneCircleWeb.csproj", "{D15ABD16-C099-42A8-A6BF-4B7280F00AD4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
