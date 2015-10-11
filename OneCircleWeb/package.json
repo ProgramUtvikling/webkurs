@@ -1,0 +1,18 @@
+{
+  "name": "ipg-webkurs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "bower": "^1.5.3",
+    "http-server": "^0.8.5"
+  },
+  "dependencies": {
+    "magellan-coords": "^1.0.5"
+  }
+}
