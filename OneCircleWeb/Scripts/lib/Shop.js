@@ -1,4 +1,4 @@
-define(["data/Place"], function (Place) {
+define(["./Place"], function (Place) {
 	"use strict";
 
 	function Shop(id, title, latitude, longitude, whatDoTheySell, openHours) {

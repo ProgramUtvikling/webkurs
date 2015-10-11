@@ -1,12 +1,13 @@
 require.config({
 	// baseUrl: "lib/data/",
 	paths:{
-		magellan: "/node_modules/magellan-coords/magellan"
+	    magellan: "/node_modules/magellan-coords/magellan",
+        jquery: "/bower_components/jquery/dist/jquery"
 	}
 });
 
 
-require(["data/Home", "data/Shop", "data/Business"], function (Home, Shop, Business) {
+require(["lib/Home", "lib/Shop", "lib/Business", "jquery"], function (Home, Shop, Business, $) {
 	"use strict";
 	
 	var p1 = new Home(1, "G47", 59.922300, 10.491150, "Arjan & fam");
@@ -15,5 +16,7 @@ require(["data/Home", "data/Shop", "data/Business"], function (Home, Shop, Busin
 	console.log(p1.toString());
 	console.log(p2.toString());
 	console.log(p3.toString());
+
+	$("<div>jQuery succesfully loaded</div>").prependTo("body");
 
 });
