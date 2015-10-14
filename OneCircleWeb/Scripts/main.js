@@ -2,29 +2,32 @@ require.config({
 	// baseUrl: "lib/data/",
 	paths:{
 	    magellan: "/node_modules/magellan-coords/magellan",
-        jquery: "/bower_components/jquery/dist/jquery"
+	    jquery: "/bower_components/jquery/dist/jquery",
+        knockout: "/bower_components/knockout/dist/knockout"
 	}
 });
 
 
-require(["lib/Home", "lib/Shop", "lib/Business", "jquery"], function (Home, Shop, Business, $) {
+require(["jquery", "knockout"], function ($, ko) {
 	"use strict";
-	
-	//var p1 = new Home(1, "G47", 59.922300, 10.491150, "Arjan & fam");
-	//var p2 = new Shop(2, "Marits Klær", 59.922300, 10.491150, "Clothes", "9-18 (10-15)");
-	//var p3 = new Business(3, "Lofoten Sjokoladefabrikk", 59.922300, 10.491150);
-	//console.log(p1.toString());
-	//console.log(p2.toString());
-	//console.log(p3.toString());
+
+    var current = ko.observable();
+
 
 	$.ajax({
 	    url: '/api/places',
         type: 'GET'
 	}).then(function (data) {
-	    var parent = $('ul#placelist');
-	    for (var i = 0; i < data.length; i++) {
-	        $("<li>" + data[i].title + "</li>").appendTo(parent);
-	    }
+	    ko.applyBindings({
+	        places: data,
+	        current: current,
+	        click: function (data) {
+	            current(data);
+	        },
+	        back: function () {
+	            current(null);
+	        }
+	    });
 	});
 
 	$("<div>jQuery succesfully loaded</div>").prependTo("body");
