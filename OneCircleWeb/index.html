@@ -3,26 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
+    <link href="Content/styles.css" rel="stylesheet" />
 </head>
 <body>
     <h1>1Circle</h1>
 
     <!--<button data-bind="click: load">Load places</button>-->
-    <style>
-        table {
-            border-collapse: collapse;
-        }
-
-        td, th {
-            border: thin solid red;
-        }
-    </style>
 
     <div data-bind="style: {display: places() ? 'none':'block'}">
         <img src="/Content/wait-spinner.gif" />
     </div>
 
-    <div data-bind="style: {display: places() ? 'block':'none'}" style="display: none;">
+    <div data-bind="style: {display: places().length ? 'block':'none'}" style="display: none;">
         <!-- ko if: current() == null -->
         <table>
             <thead>

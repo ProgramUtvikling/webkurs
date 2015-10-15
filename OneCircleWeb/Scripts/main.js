@@ -12,7 +12,7 @@ require(["jquery", "knockout"], function ($, ko) {
 	"use strict";
 
     var current = ko.observable();
-    var places = ko.observable();
+    var places = ko.observableArray();
 
     var vm = {
         places: places,
