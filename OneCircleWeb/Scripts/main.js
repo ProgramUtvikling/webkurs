@@ -4,34 +4,24 @@ require.config({
         magellan: "/node_modules/magellan-coords/magellan",
         jquery: "/bower_components/jquery/dist/jquery",
         knockout: "/bower_components/knockout/dist/knockout",
-        text: "/bower_components/text/text"
+        text: "/bower_components/text/text",
+        grapnel: "/bower_components/grapnel/dist/grapnel.min"
     }
 });
 
 
-require(["jquery", "knockout"], function ($, ko) {
+require(["jquery", "knockout", "grapnel", "sharedRootViewModel"], function ($, ko, Grapnel, vm) {
     "use strict";
 
-    var current = ko.observable();
-    var places = ko.observableArray();
-    var currentComponent = ko.observable("waitSpinner");
-
-    var vm = {
-        currentComponent: currentComponent,
-        places: places,
-        current: current,
-        click: function (data) {
-            currentComponent("placeDetails");
-            current(data);
-        },
-        back: function () {
-            currentComponent("placeList");
-            current(null);
-        }
-    };
-
-
-
+    function registerView(name) {
+        ko.components.register(name,
+        {
+            viewModel: function () {
+                return vm;
+            },
+            template: { require: "text!views/" + name + ".html" }
+        });
+    }
 
     ko.components.register("waitSpinner",
     {
@@ -39,31 +29,52 @@ require(["jquery", "knockout"], function ($, ko) {
         template: { element: "waitSpinner" }
     });
 
-    ko.components.register("placeList",
-    {
-        viewModel: function () {
-            return vm;
-        },
-        template: { require: "text!views/placeList.html" }
+    registerView("placeList");
+    registerView("placeDetails");
+    registerView("registerPlace");
+
+
+    var router = new Grapnel();
+    router.get("/places", function () {
+        console.log("route for placeList");
+        vm.currentComponent("placeList");
+        return false;
     });
 
-    ko.components.register("placeDetails", {
-        viewModel: function () {
-            return vm;
-        },
-        template: { require: "text!views/placeDetails.html" }
+    router.get("/places/id=:id?", function (req) {
+        var id = req.params.id;
+        console.log("route for placeDetails, id: " + id);
+        vm.current(getPlaceById(vm.places(), id));
+        vm.currentComponent("placeDetails");
+        return false;
     });
 
+    function getPlaceById(places, id) {
+        var res = places.filter(function(place) {
+            return place.id == id;
+        });
 
+        return res[0];
+    }
+
+    //router.get("/places/register", function () {
+    //    console.log("route for registerPlace");
+    //    vm.currentComponent("registerPlace");
+    //    return false;
+    //});
+
+
+
+
+    vm.currentComponent("waitSpinner");
     ko.applyBindings(vm);
 
     $.ajax({
         url: '/api/places',
         type: 'GET'
     }).then(function (data) {
-        places(data);
-        currentComponent("placeList");
-
+        vm.places(data);
+        vm.currentComponent("placeList");
     });
 
 });

@@ -14,6 +14,7 @@
             <td data-bind="text: longitude"></td>
             <td>
                 <button data-bind="click: $component.click">View details</button>
+                <a data-bind="attr: {href: '#/places/id=' + id }">View details</a>
             </td>
         </tr>
     </tbody>
