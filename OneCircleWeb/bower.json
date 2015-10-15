@@ -15,6 +15,7 @@
   "dependencies": {
     "requirejs": "~2.1.20",
     "jquery": "~2.1.4",
-    "knockout": "knockoutjs#~3.3.0"
+    "knockout": "knockoutjs#~3.3.0",
+    "text": "requirejs-text#~2.0.14"
   }
 }

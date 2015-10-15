@@ -1,0 +1,16 @@
+﻿<div data-bind="with: current">
+    <h3>Details for <span data-bind="text: title"></span></h3>
+    <div>
+        Latitude
+        <span data-bind="text: latitude"></span>
+    </div>
+    <div>
+        Longitude
+        <span data-bind="text: longitude"></span>
+    </div>
+    <div>
+        Latitude
+        <span data-bind="text: JSON.stringify($data)"></span>
+    </div>
+    <button data-bind="click: $component.back">Back to list</button>
+</div>

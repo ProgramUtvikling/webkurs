@@ -111,6 +111,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\styles.css" />
     <Content Include="Content\wait-spinner.gif" />
     <Content Include="Global.asax" />
     <Content Include="index.html" />
@@ -118,7 +119,14 @@
     <Content Include="Scripts\lib\Home.js" />
     <Content Include="Scripts\lib\Place.js" />
     <Content Include="Scripts\lib\Shop.js" />
+    <Content Include="Scripts\sharedRootViewModel.js" />
     <Content Include="Scripts\main.js" />
+    <Content Include="Scripts\views\placeDetails.js" />
+    <Content Include="Scripts\views\placeDetails.html" />
+    <Content Include="Scripts\views\registerPlace.html" />
+    <Content Include="Scripts\views\placeList.html" />
+    <Content Include="Scripts\views\placeList.js" />
+    <Content Include="Scripts\views\registerPlace.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

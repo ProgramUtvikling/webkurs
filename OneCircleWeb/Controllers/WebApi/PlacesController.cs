@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using OneCircleWeb.DAL;
@@ -18,10 +19,10 @@ namespace OneCircleWeb.Controllers.WebApi
         private OneCircleDbContext db = new OneCircleDbContext();
 
         // GET: api/Places
-        public IQueryable<Place> GetPlaces()
+        public async Task<IList<Place>> GetPlaces()
         {
-            Thread.Sleep(1000);
-            return db.Places;
+            await Task.Delay(1000);
+            return await db.Places.ToListAsync();
         }
 
         // GET: api/Places/5

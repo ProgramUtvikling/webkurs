@@ -19,18 +19,19 @@ require(["jquery", "knockout"], function ($, ko) {
     var vm = {
         currentComponent: currentComponent,
         places: places,
-        current: current,
-        click: function (data) {
-            currentComponent("placeDetails");
-            current(data);
-        },
-        back: function () {
-            currentComponent("placeList");
-            current(null);
-        }
+        current: current
     };
 
 
+    function click(data) {
+        currentComponent("placeDetails");
+        current(data);
+    }
+
+    function back() {
+        currentComponent("placeList");
+        current(null);
+    }
 
 
     ko.components.register("waitSpinner",
@@ -42,14 +43,20 @@ require(["jquery", "knockout"], function ($, ko) {
     ko.components.register("placeList",
     {
         viewModel: function () {
-            return vm;
+            return {
+                places: vm.places,
+                click: click
+            }
         },
         template: { require: "text!views/placeList.html" }
     });
 
     ko.components.register("placeDetails", {
         viewModel: function () {
-            return vm;
+            return {
+                current: vm.current,
+                back: back
+            }
         },
         template: { require: "text!views/placeDetails.html" }
     });
