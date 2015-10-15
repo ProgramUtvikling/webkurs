@@ -6,6 +6,7 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Web.Http;
 using System.Web.Http.Description;
 using OneCircleWeb.DAL;
@@ -19,6 +20,7 @@ namespace OneCircleWeb.Controllers.WebApi
         // GET: api/Places
         public IQueryable<Place> GetPlaces()
         {
+            Thread.Sleep(1000);
             return db.Places;
         }
 

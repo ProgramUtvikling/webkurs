@@ -8,56 +8,61 @@
     <h1>1Circle</h1>
 
     <!--<button data-bind="click: load">Load places</button>-->
-<style>
-    table {
-        border-collapse: collapse;
-    }
+    <style>
+        table {
+            border-collapse: collapse;
+        }
 
-    td, th {
-        border: thin solid red;
-    }
-</style>
+        td, th {
+            border: thin solid red;
+        }
+    </style>
 
-    <!-- ko if: current() == null -->
-<table>
-        <thead>
-            <tr>
-                <th>Place</th>
-                <th>Latitude</th>
-                <th>Longitude</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody data-bind="foreach: places">
-            <tr>
-                <td data-bind="text: title"></td>
-                <td data-bind="text: latitude"></td>
-                <td data-bind="text: longitude"></td>
-                <td>
-                    <button data-bind="click: $parent.click">View details</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <!-- /ko -->
-
-    <div data-bind="with: current">
-        <h3>Details for <span data-bind="text: title"></span></h3>
-        <div>
-            Latitude
-            <span data-bind="text: latitude"></span>
-        </div>
-        <div>
-            Longitude
-            <span data-bind="text: longitude"></span>
-        </div>
-        <div>
-            Latitude
-            <span data-bind="text: JSON.stringify($data)"></span>
-        </div>
-        <button data-bind="click: $parent.back">Back to list</button>
+    <div data-bind="style: {display: places() ? 'none':'block'}">
+        <img src="/Content/wait-spinner.gif" />
     </div>
 
+    <div data-bind="style: {display: places() ? 'block':'none'}" style="display: none;">
+        <!-- ko if: current() == null -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Place</th>
+                    <th>Latitude</th>
+                    <th>Longitude</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: places">
+                <tr>
+                    <td data-bind="text: title"></td>
+                    <td data-bind="text: latitude"></td>
+                    <td data-bind="text: longitude"></td>
+                    <td>
+                        <button data-bind="click: $parent.click">View details</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- /ko -->
+
+        <div data-bind="with: current">
+            <h3>Details for <span data-bind="text: title"></span></h3>
+            <div>
+                Latitude
+                <span data-bind="text: latitude"></span>
+            </div>
+            <div>
+                Longitude
+                <span data-bind="text: longitude"></span>
+            </div>
+            <div>
+                Latitude
+                <span data-bind="text: JSON.stringify($data)"></span>
+            </div>
+            <button data-bind="click: $parent.back">Back to list</button>
+        </div>
+    </div>
 
     <script src="./bower_components/requirejs/require.js" data-main="./scripts/main"></script>
 </body>

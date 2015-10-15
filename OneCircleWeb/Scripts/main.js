@@ -12,24 +12,26 @@ require(["jquery", "knockout"], function ($, ko) {
 	"use strict";
 
     var current = ko.observable();
+    var places = ko.observable();
 
+    var vm = {
+        places: places,
+        current: current,
+        click: function(data) {
+            current(data);
+        },
+        back: function() {
+            current(null);
+        }
+    };
+
+    ko.applyBindings(vm);
 
 	$.ajax({
 	    url: '/api/places',
         type: 'GET'
 	}).then(function (data) {
-	    ko.applyBindings({
-	        places: data,
-	        current: current,
-	        click: function (data) {
-	            current(data);
-	        },
-	        back: function () {
-	            current(null);
-	        }
-	    });
+	    places(data);
 	});
-
-	$("<div>jQuery succesfully loaded</div>").prependTo("body");
 
 });
