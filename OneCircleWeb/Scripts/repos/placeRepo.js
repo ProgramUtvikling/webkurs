@@ -1,35 +1,28 @@
-﻿define(["jquery", "knockout", "q"], function ($, ko, q) {
+﻿define(["jquery", "knockout", "q"], function ($, ko, Q) {
     "use strict";
-
-    var places = q.defer();
-
-    $.ajax({
-        url: '/api/places',
-        type: 'GET'
-    }).then(
-        function (data) {
-            console.log("got places from webapi");
-            places.resolve(data);
-        },
-        function (reason) {
-            console.log("failed getting places from webapi");
-            places.reject(reason);
-        }
+    var placesPromise = Q(
+        $.ajax({
+            url: '/api/places',
+            type: 'GET'
+        })
     );
 
-
     function getPlaces() {
-
-        return places.promise;
+        return placesPromise;
     }
 
-    //function getPlaceById(id) {
-
-    //}
+    function getPlaceById(id) {
+        return Q(
+            $.ajax({
+                url: '/api/places/' + id,
+                type: 'GET'
+            })
+        );
+    }
 
     return {
-        getPlaces: getPlaces
-        //getPlaceById: getPlaceById
+        getPlaces: getPlaces,
+        getPlaceById: getPlaceById
     }
 
 });

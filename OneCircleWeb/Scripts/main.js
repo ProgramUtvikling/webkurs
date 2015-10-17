@@ -1,5 +1,5 @@
 require.config({
-    // baseUrl: "lib/data/",
+    baseUrl: "/Scripts",
     paths: {
         magellan: "/node_modules/magellan-coords/magellan",
         jquery: "/bower_components/jquery/dist/jquery",
@@ -11,26 +11,45 @@ require.config({
 });
 
 
-require(["jquery", "knockout", "grapnel", "sharedRootViewModel", "repos/placeRepo"], function ($, ko, Grapnel, vm, placesRepo) {
+require(["jquery", "knockout", "grapnel", "q"], function ($, ko, Grapnel, Q) {
     "use strict";
 
-    function registerView(name) {
-        ko.components.register(name,
-        {
-            viewModel: function () {
-                return vm;
-            },
-            template: { require: "text!views/" + name + ".html" }
+    var rootPageVm = {
+        currentView: ko.observable("waitSpinner")
+    };
+
+    var router = new Grapnel();
+
+    function registerView(componentName) {
+        var d = Q.defer();
+        require([componentName], function(component) {
+            ko.components.register(component.name,
+            {
+                viewModel: component.getViewModel || null,
+                template: { require: "text!" + componentName + ".html" }
+            });
+
+            component.routes.forEach(function(route) {
+                router.get(route.path, function(req) {
+                    var promise = route.action(req.params);
+
+                    if (promise && promise.then) {
+                        promise.then(function() {
+                            rootPageVm.currentView(component.name);
+                        });
+                    } else {
+                        rootPageVm.currentView(component.name);
+                    }
+
+                    return false;
+                });
+            });
+        
+            d.resolve();
         });
+        return d.promise;
     }
 
-    function getPlaceById(places, id) {
-        var res = places.filter(function (place) {
-            return place.id == id;
-        });
-
-        return res[0];
-    }
 
     ko.components.register("waitSpinner",
     {
@@ -38,46 +57,12 @@ require(["jquery", "knockout", "grapnel", "sharedRootViewModel", "repos/placeRep
         template: { element: "waitSpinner" }
     });
 
-    registerView("placeList");
-    registerView("placeDetails");
-    registerView("registerPlace");
-
-
-    var router = new Grapnel();
-    router.get("/places", function () {
-        console.log("route for placeList");
-        vm.currentComponent("placeList");
-        return false;
+    Q.all([
+        registerView("views/placeList"),
+        registerView("views/placeDetails"),
+        //registerView("registerPlace")
+    ]).then(function() {
+        ko.applyBindings(rootPageVm);
     });
-
-    router.get("/places/id=:id?", function (req) {
-        var id = req.params.id;
-        console.log("route for placeDetails, id: " + id);
-        vm.current(getPlaceById(vm.places(), id));
-        vm.currentComponent("placeDetails");
-        return false;
-    });
-
-    //router.get("/places/register", function () {
-    //    console.log("route for registerPlace");
-    //    vm.currentComponent("registerPlace");
-    //    return false;
-    //});
-
-
-
-
-    vm.currentComponent("waitSpinner");
-    ko.applyBindings(vm);
-
-    placesRepo.getPlaces().then(
-        function (data) {
-            console.log("We've got data");
-            vm.places(data);
-            vm.currentComponent("placeList");
-        }, function(err) {
-            console.log("failed (in main) " + err);
-        }
-    );
 
 });

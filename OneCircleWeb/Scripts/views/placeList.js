@@ -1,12 +1,27 @@
-﻿define(["sharedRootViewModel"], function (vm) {
+﻿define(["knockout", "q", "repos/placeRepo"], function (ko, Q, placeRepo) {
     "use strict";
 
+    var places = ko.observable();
+    var placesPromise = placeRepo.getPlaces();
+    placesPromise.then(function (data) {
+        places(data);
+    });
+
+    function gotoPlaces(params) {
+        return placesPromise;
+    }
+
     return {
-        route: '/place',
-        getViewModel: function () { return vm; },
-        init: function(params) {
-            // ensure necessary data is loaded data into the view
-        }
+        name: "placeList",
+        getViewModel: function () {
+            return {
+                places: places
+            };
+        },
+        routes: [
+            { path: '', action: gotoPlaces },
+            { path: '/places', action: gotoPlaces }
+        ]
     };
 
 });
