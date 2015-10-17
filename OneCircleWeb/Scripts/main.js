@@ -5,12 +5,13 @@ require.config({
         jquery: "/bower_components/jquery/dist/jquery",
         knockout: "/bower_components/knockout/dist/knockout",
         text: "/bower_components/text/text",
-        grapnel: "/bower_components/grapnel/dist/grapnel.min"
+        grapnel: "/bower_components/grapnel/dist/grapnel.min",
+        q: "/bower_components/q/q"
     }
 });
 
 
-require(["jquery", "knockout", "grapnel", "sharedRootViewModel"], function ($, ko, Grapnel, vm) {
+require(["jquery", "knockout", "grapnel", "sharedRootViewModel", "repos/placeRepo"], function ($, ko, Grapnel, vm, placesRepo) {
     "use strict";
 
     function registerView(name) {
@@ -21,6 +22,14 @@ require(["jquery", "knockout", "grapnel", "sharedRootViewModel"], function ($, k
             },
             template: { require: "text!views/" + name + ".html" }
         });
+    }
+
+    function getPlaceById(places, id) {
+        var res = places.filter(function (place) {
+            return place.id == id;
+        });
+
+        return res[0];
     }
 
     ko.components.register("waitSpinner",
@@ -49,14 +58,6 @@ require(["jquery", "knockout", "grapnel", "sharedRootViewModel"], function ($, k
         return false;
     });
 
-    function getPlaceById(places, id) {
-        var res = places.filter(function(place) {
-            return place.id == id;
-        });
-
-        return res[0];
-    }
-
     //router.get("/places/register", function () {
     //    console.log("route for registerPlace");
     //    vm.currentComponent("registerPlace");
@@ -69,12 +70,14 @@ require(["jquery", "knockout", "grapnel", "sharedRootViewModel"], function ($, k
     vm.currentComponent("waitSpinner");
     ko.applyBindings(vm);
 
-    $.ajax({
-        url: '/api/places',
-        type: 'GET'
-    }).then(function (data) {
-        vm.places(data);
-        vm.currentComponent("placeList");
-    });
+    placesRepo.getPlaces().then(
+        function (data) {
+            console.log("We've got data");
+            vm.places(data);
+            vm.currentComponent("placeList");
+        }, function(err) {
+            console.log("failed (in main) " + err);
+        }
+    );
 
 });

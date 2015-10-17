@@ -119,6 +119,7 @@
     <Content Include="Scripts\lib\Home.js" />
     <Content Include="Scripts\lib\Place.js" />
     <Content Include="Scripts\lib\Shop.js" />
+    <Content Include="Scripts\repos\placeRepo.js" />
     <Content Include="Scripts\sharedRootViewModel.js" />
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\views\placeDetails.js" />
