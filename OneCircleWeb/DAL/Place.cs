@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.Spatial;
@@ -15,5 +17,6 @@ namespace OneCircleWeb.DAL
 
         public double Longitude { get; set; }
 
+        public IEnumerable<Review> Reviews { get; set; }
     }
 }

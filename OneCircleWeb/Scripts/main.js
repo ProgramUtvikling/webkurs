@@ -1,12 +1,12 @@
 require.config({
     baseUrl: "/Scripts",
     paths: {
-        magellan: "/node_modules/magellan-coords/magellan",
-        jquery: "/bower_components/jquery/dist/jquery",
-        knockout: "/bower_components/knockout/dist/knockout",
-        text: "/bower_components/text/text",
-        grapnel: "/bower_components/grapnel/dist/grapnel.min",
-        q: "/bower_components/q/q"
+        magellan: "../bower_components/magellan/magellan",
+        jquery: "../bower_components/jquery/dist/jquery",
+        knockout: "../bower_components/knockout/dist/knockout",
+        text: "../bower_components/text/text",
+        grapnel: "../bower_components/grapnel/dist/grapnel.min",
+        q: "../bower_components/q/q"
     }
 });
 

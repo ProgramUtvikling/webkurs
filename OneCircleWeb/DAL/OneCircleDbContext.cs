@@ -9,5 +9,6 @@ namespace OneCircleWeb.DAL
     public class OneCircleDbContext : DbContext
     {
         public DbSet<Place> Places { get; set; }
+        public DbSet<Review> Reviews { get; set; }
     }
 }
